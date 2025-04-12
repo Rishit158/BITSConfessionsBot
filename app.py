@@ -8,6 +8,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 import pandas as pd
 from reddit_scraper import scrape_reddit_data
 from text_processor import process_text, find_similar_confessions
+from perplexity_api import generate_summary, fallback_summary
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -209,9 +210,11 @@ def search():
     if request.method == 'POST':
         query = request.form.get('query', '')
         category_id = request.form.get('category', '')
+        summarize = request.form.get('summarize') == 'true'
     else:  # GET request
         query = request.args.get('query', '')
         category_id = request.args.get('category', '')
+        summarize = request.args.get('summarize') == 'true'
     
     current_year = datetime.now().year
     
@@ -254,11 +257,47 @@ def search():
         id_to_result = {r.id: r for r in results}
         sorted_results = [id_to_result[id] for id in result_ids if id in id_to_result]
         
+        # If summarize is enabled, generate a summary of the results
+        if summarize:
+            try:
+                # Convert results to format needed for summarization
+                confession_data = []
+                for result in sorted_results:
+                    confession_data.append({
+                        'id': result.id,
+                        'text': result.text,
+                        'title': result.title,
+                        'category': result.category.name,
+                        'source': result.source,
+                        'score': result.score,
+                        'url': result.url
+                    })
+                
+                # Try to get a summary from Perplexity API
+                summary = generate_summary(query, confession_data)
+                
+                # If Perplexity API is not available, use fallback summary
+                if summary is None:
+                    logger.warning("Perplexity API unavailable, using fallback summary")
+                    summary = fallback_summary(query, confession_data)
+                
+                return render_template('summarized_results.html',
+                                    query=query,
+                                    results=sorted_results,
+                                    categories=Category.query.all(),
+                                    summary=summary,
+                                    current_year=current_year)
+            except Exception as e:
+                logger.error(f"Error generating summary: {str(e)}")
+                # If there's an error with summarization, fall back to regular results
+                flash('Could not generate summary. Showing regular results instead.', 'warning')
+        
+        # Regular search results without summary
         return render_template('results.html', 
-                               query=query, 
-                               results=sorted_results, 
-                               categories=Category.query.all(),
-                               current_year=current_year)
+                            query=query, 
+                            results=sorted_results, 
+                            categories=Category.query.all(),
+                            current_year=current_year)
     
     except Exception as e:
         logger.error(f"Search error: {str(e)}")

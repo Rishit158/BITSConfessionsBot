@@ -64,6 +64,13 @@
                     </div>
                     <input type="hidden" name="category" id="category-input" value="all">
                 </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="true" id="summarize" name="summarize" checked>
+                    <label class="form-check-label" for="summarize">
+                        <i class="fas fa-robot me-1 text-primary"></i> Generate AI summary of results
+                    </label>
+                </div>
             </form>
         </div>
     </div>
@@ -124,31 +131,31 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=How%20to%20prepare%20for%20Compre%20exams" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=How%20to%20prepare%20for%20Compre%20exams&summarize=true" class="text-decoration-none">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             How to prepare for Compre exams?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=What%20are%20the%20best%20places%20to%20eat%20near%20campus" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=What%20are%20the%20best%20places%20to%20eat%20near%20campus&summarize=true" class="text-decoration-none">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             What are the best places to eat near campus?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=Tips%20for%20getting%20good%20PS%20stations" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=Tips%20for%20getting%20good%20PS%20stations&summarize=true" class="text-decoration-none">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             Tips for getting good PS stations?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=How%20to%20manage%20academic%20pressure" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=How%20to%20manage%20academic%20pressure&summarize=true" class="text-decoration-none">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             How to manage academic pressure?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=What%20clubs%20should%20I%20join%20as%20a%20fresher" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=What%20clubs%20should%20I%20join%20as%20a%20fresher&summarize=true" class="text-decoration-none">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             What clubs should I join as a fresher?
                         </a>
