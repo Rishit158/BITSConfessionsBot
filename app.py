@@ -25,6 +25,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
+# Add a custom Jinja2 filter for handling newlines
+@app.template_filter('nl2br')
+def nl2br(value):
+    """Convert newlines to <br> tags"""
+    if value:
+        return value.replace('\n', '<br>')
+    return value
+
 # Configure SQLite database
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///confessions.db")
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
