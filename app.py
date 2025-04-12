@@ -323,6 +323,23 @@ def categories():
     
     return render_template('categories.html', categories=category_data, current_year=current_year)
 
+@app.route('/category/<int:category_id>')
+def category_detail(category_id):
+    current_year = datetime.now().year
+    category = Category.query.get_or_404(category_id)
+    
+    # Get all confessions for this category
+    confessions = Confession.query.filter_by(category_id=category_id).order_by(Confession.score.desc()).all()
+    
+    # Get all categories for the navigation
+    all_categories = Category.query.all()
+    
+    return render_template('category_detail.html', 
+                          category=category,
+                          confessions=confessions,
+                          categories=all_categories,
+                          current_year=current_year)
+
 @app.route('/about')
 def about():
     stats = {

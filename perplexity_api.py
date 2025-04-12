@@ -16,9 +16,11 @@ logger = logging.getLogger(__name__)
 try:
     nltk.data.find('tokenizers/punkt')
     nltk.data.find('corpora/stopwords')
+    nltk.data.find('corpora/wordnet')
 except LookupError:
     nltk.download('punkt')
     nltk.download('stopwords')
+    nltk.download('wordnet')
 
 def extract_key_phrases(texts, num_phrases=10):
     """Extract key phrases from a list of texts"""
