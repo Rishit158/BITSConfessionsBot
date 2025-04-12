@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}About BITS Confessions Bot{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card mb-5">
+            <div class="card-header bg-primary text-white">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-info-circle me-2"></i> About BITS Confessions Bot
+                </h1>
+            </div>
+            <div class="card-body">
+                <h3>What is this?</h3>
+                <p>
+                    BITS Confessions Bot is a web application that allows you to search through
+                    anonymous confessions and discussions from BITS Pilani students across various
+                    Reddit forums. The application collects posts and comments from subreddits 
+                    like r/BITSPilani, r/Indian_Academia, and similar communities, processes them, 
+                    and makes them searchable.
+                </p>
+                
+                <h3>How does it work?</h3>
+                <p>
+                    The application uses the following technologies and approaches:
+                </p>
+                <ol>
+                    <li>
+                        <strong>Data Collection:</strong> We scrape public Reddit forums related to 
+                        BITS Pilani using PRAW (Python Reddit API Wrapper).
+                    </li>
+                    <li>
+                        <strong>Data Processing:</strong> The collected posts and comments are processed
+                        using natural language processing techniques to categorize them and make them
+                        searchable.
+                    </li>
+                    <li>
+                        <strong>Search Functionality:</strong> When you enter a query, the application 
+                        uses text similarity algorithms to find the most relevant confessions and 
+                        displays them to you.
+                    </li>
+                </ol>
+                
+                <h3>Current Statistics</h3>
+                <div class="row mt-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h1 class="display-4 text-primary">{{ stats.confession_count }}</h1>
+                                <p class="lead">Confessions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h1 class="display-4 text-success">{{ stats.category_count }}</h1>
+                                <p class="lead">Categories</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <h1 class="display-4 text-info">{{ stats.subreddits|length }}</h1>
+                                <p class="lead">Subreddits</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="mt-4">Data Sources</h3>
+                <p>
+                    We collect data from the following public Reddit forums:
+                </p>
+                <ul>
+                    {% for subreddit in stats.subreddits %}
+                    <li>
+                        <a href="https://www.reddit.com/{{ subreddit }}/" target="_blank" class="text-decoration-none">
+                            {{ subreddit }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <h3>Privacy and Ethics</h3>
+                <p>
+                    This application only collects publicly available data from Reddit. We do not:
+                </p>
+                <ul>
+                    <li>Store or collect any personal information about users</li>
+                    <li>Modify or alter the original content in any significant way</li>
+                    <li>Share or sell any data to third parties</li>
+                </ul>
+                <p>
+                    All data displayed in this application is already publicly accessible on Reddit.
+                    The application simply makes it easier to search and categorize this information.
+                </p>
+                
+                <h3>Disclaimer</h3>
+                <p class="mb-0">
+                    This application was created for educational purposes. The confessions and opinions 
+                    expressed in the posts do not represent the views of BITS Pilani or the developers 
+                    of this application. Use the information at your own discretion.
+                </p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-dark">
+                <h2 class="h4 mb-0">
+                    <i class="fas fa-code me-2"></i> Technical Details
+                </h2>
+            </div>
+            <div class="card-body">
+                <h4>Tech Stack</h4>
+                <ul>
+                    <li><strong>Backend:</strong> Flask (Python)</li>
+                    <li><strong>Database:</strong> SQLite / SQLAlchemy</li>
+                    <li><strong>Reddit API:</strong> PRAW (Python Reddit API Wrapper)</li>
+                    <li><strong>Text Processing:</strong> NLTK, scikit-learn</li>
+                    <li><strong>Data Analysis:</strong> pandas</li>
+                    <li><strong>Frontend:</strong> HTML, CSS, JavaScript, Bootstrap</li>
+                </ul>
+                
+                <h4>Key Features</h4>
+                <ul>
+                    <li>Natural language search for confessions</li>
+                    <li>Category-based filtering</li>
+                    <li>Automatic categorization of posts</li>
+                    <li>Display of original Reddit sources</li>
+                    <li>Responsive design for all devices</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

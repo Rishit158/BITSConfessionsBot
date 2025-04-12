@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}Search Results - {{ query }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-4">
+            <i class="fas fa-search me-2"></i> Search Results
+        </h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Your Query</h5>
+                <p class="card-text" id="search-query">{{ query }}</p>
+                <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-search me-1"></i> New Search
+                </a>
+            </div>
+        </div>
+        
+        <h4 class="mb-3">Found {{ results|length }} relevant confessions</h4>
+        
+        <div class="results-container">
+            {% for result in results %}
+            <div class="card mb-4 confession-card category-{{ result.category.name|replace(' ', '-') }}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>
+                        <span class="badge bg-secondary me-2">
+                            <i class="fab fa-reddit me-1"></i> r/{{ result.source }}
+                        </span>
+                        <span class="badge {% if result.category.name == 'Academics' %}bg-info{% elif result.category.name == 'Campus Life' %}bg-success{% elif result.category.name == 'Relationships' %}bg-danger{% elif result.category.name == 'Mental Health' %}bg-warning{% elif result.category.name == 'PS/Thesis' %}bg-primary{% else %}bg-secondary{% endif %} category-badge">
+                            {{ result.category.name }}
+                        </span>
+                    </span>
+                    <span class="text-muted small">
+                        <i class="fas fa-arrow-up me-1"></i> {{ result.score }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    {% if result.title %}
+                    <h5 class="card-title">{{ result.title }}</h5>
+                    {% endif %}
+                    <div class="card-text confession-text">
+                        {{ result.text }}
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="{{ result.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-external-link-alt me-1"></i> View Original
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <!-- Search sidebar -->
+        <div class="sticky-top" style="top: 20px;">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i> Search Again
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('search') }}" method="post">
+                        <div class="mb-3">
+                            <label for="query" class="form-label">Your Question</label>
+                            <input type="text" class="form-control" id="query" name="query" 
+                                   value="{{ query }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category (Optional)</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="all">All Categories</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-1"></i> Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-dark">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tags me-2"></i> Browse Categories
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for category in categories %}
+                        <a href="{{ url_for('search') }}?category={{ category.id }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ category.name }}
+                            <span class="badge bg-primary rounded-pill">
+                                {% if category.name == 'Academics' %}
+                                    <i class="fas fa-graduation-cap"></i>
+                                {% elif category.name == 'Campus Life' %}
+                                    <i class="fas fa-university"></i>
+                                {% elif category.name == 'Relationships' %}
+                                    <i class="fas fa-heart"></i>
+                                {% elif category.name == 'Mental Health' %}
+                                    <i class="fas fa-brain"></i>
+                                {% elif category.name == 'PS/Thesis' %}
+                                    <i class="fas fa-laptop-code"></i>
+                                {% else %}
+                                    <i class="fas fa-comments"></i>
+                                {% endif %}
+                            </span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize the selected category in the dropdown
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        
+        if (categoryParam) {
+            const categorySelect = document.getElementById('category');
+            if (categorySelect) {
+                categorySelect.value = categoryParam;
+            }
+        }
+    });
+</script>
+{% endblock %}

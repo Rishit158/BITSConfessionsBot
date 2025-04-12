@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}Categories - BITS Confessions Bot{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-tags me-2"></i> Browse by Category
+        </h1>
+        <p class="lead">
+            Explore confessions organized by categories. Click on a category to see related posts.
+        </p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    {% for category in categories %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 category-card">
+            <div class="card-header 
+                {% if category.name == 'Academics' %}bg-info
+                {% elif category.name == 'Campus Life' %}bg-success
+                {% elif category.name == 'Relationships' %}bg-danger
+                {% elif category.name == 'Mental Health' %}bg-warning
+                {% elif category.name == 'PS/Thesis' %}bg-primary
+                {% else %}bg-secondary{% endif %} text-white">
+                <h3 class="h5 mb-0">
+                    {% if category.name == 'Academics' %}
+                        <i class="fas fa-graduation-cap me-2"></i>
+                    {% elif category.name == 'Campus Life' %}
+                        <i class="fas fa-university me-2"></i>
+                    {% elif category.name == 'Relationships' %}
+                        <i class="fas fa-heart me-2"></i>
+                    {% elif category.name == 'Mental Health' %}
+                        <i class="fas fa-brain me-2"></i>
+                    {% elif category.name == 'PS/Thesis' %}
+                        <i class="fas fa-laptop-code me-2"></i>
+                    {% else %}
+                        <i class="fas fa-comments me-2"></i>
+                    {% endif %}
+                    {{ category.name }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    {% if category.name == 'Academics' %}
+                        Discussions about courses, professors, grades, exams, and study tips. Find advice on handling academic pressure and excelling in your studies.
+                    {% elif category.name == 'Campus Life' %}
+                        Experience of living on campus, including hostels, mess food, clubs, events, and facilities. Learn about the day-to-day life at BITS Pilani.
+                    {% elif category.name == 'Relationships' %}
+                        Confessions about romantic relationships, friendships, and social dynamics on campus. Read about dating experiences and social connections.
+                    {% elif category.name == 'Mental Health' %}
+                        Discussion about stress, anxiety, depression, and coping mechanisms. Find support and advice for maintaining mental well-being.
+                    {% elif category.name == 'PS/Thesis' %}
+                        Experiences with Practice School, internships, and thesis projects. Get tips for applications, station selection, and successful completions.
+                    {% else %}
+                        Miscellaneous topics that don't fit into the other categories, including general discussions about campus life.
+                    {% endif %}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-dark">
+                        <i class="fas fa-comment-dots me-1"></i> {{ category.count }} posts
+                    </span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('search') }}?category={{ category.id }}" class="btn btn-outline-primary w-100">
+                    <i class="fas fa-search me-1"></i> Browse {{ category.name }} Confessions
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="h4 mb-0">
+                    <i class="fas fa-search me-2"></i> Search All Categories
+                </h3>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('search') }}" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="query" placeholder="Search across all categories..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-1"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

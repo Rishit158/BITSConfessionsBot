@@ -1,0 +1,94 @@
+/* Custom styles for BITS Confessions Bot */
+
+/* Confession cards */
+.confession-card {
+    transition: transform 0.2s ease-in-out;
+    border-left: 4px solid var(--bs-primary);
+}
+
+.confession-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Category badges */
+.category-badge {
+    font-size: 0.8rem;
+}
+
+/* Category colors */
+.category-Academics {
+    border-left-color: var(--bs-info);
+}
+
+.category-Campus-Life {
+    border-left-color: var(--bs-success);
+}
+
+.category-Relationships {
+    border-left-color: var(--bs-danger);
+}
+
+.category-Mental-Health {
+    border-left-color: var(--bs-warning);
+}
+
+.category-PS-Thesis {
+    border-left-color: var(--bs-primary);
+}
+
+.category-General {
+    border-left-color: var(--bs-secondary);
+}
+
+/* Hero section */
+.hero-section {
+    padding: 3rem 0;
+    background-color: rgba(13, 110, 253, 0.05);
+    border-radius: 0.5rem;
+}
+
+/* Custom search box */
+.search-box {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 2rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Footer */
+.footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+/* Category cards */
+.category-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Search highlight */
+.highlight {
+    background-color: rgba(255, 193, 7, 0.3);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+    .search-box {
+        padding: 1rem;
+    }
+    
+    .hero-section {
+        padding: 2rem 0;
+    }
+}
