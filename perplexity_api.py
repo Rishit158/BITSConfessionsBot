@@ -100,8 +100,12 @@ def generate_summary(query: str, confessions: List[Dict[str, Any]]) -> str:
         # Generate advice section based on query and content
         advice = generate_advice(query, key_phrases, confessions)
         
-        # Combine all sections
-        summary = f"{intro}\n\n{insights}\n\n{advice}"
+        # Combine all sections and convert newlines to HTML paragraph breaks
+        intro_html = f"<p>{intro}</p>"
+        insights_html = insights.replace("\n\n", "</p><p>")
+        advice_html = f"<p>{advice}</p>"
+        
+        summary = f"{intro_html}{insights_html}{advice_html}"
         
         return summary
             
@@ -224,14 +228,14 @@ def fallback_summary(query: str, confessions: List[Dict[str, Any]]) -> str:
     
     most_common_category = max(categories.items(), key=lambda x: x[1])[0] if categories else "various topics"
     
-    # Simple template for fallback summary
-    summary = f"""Based on {len(confessions)} confessions from BITS Pilani students about {most_common_category.lower()}, 
-I found several relevant experiences related to your query about "{query}".
+    # Simple template for fallback summary with HTML formatting
+    summary = f"""<p>Based on {len(confessions)} confessions from BITS Pilani students about {most_common_category.lower()}, 
+I found several relevant experiences related to your query about "{query}".</p>
 
-These confessions highlight common themes and experiences among BITS Pilani students. 
-Many share similar challenges and insights, particularly in relation to {most_common_category.lower()}.
+<p>These confessions highlight common themes and experiences among BITS Pilani students. 
+Many share similar challenges and insights, particularly in relation to {most_common_category.lower()}.</p>
 
-You can read the detailed confessions below for more specific insights and personal experiences.
-Remember that individual experiences vary, and what works for one person may not work for everyone."""
+<p>You can read the detailed confessions below for more specific insights and personal experiences.
+Remember that individual experiences vary, and what works for one person may not work for everyone.</p>"""
     
     return summary
