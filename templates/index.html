@@ -83,41 +83,43 @@
     
     {% for category in categories %}
     <div class="col-md-4 col-sm-6 mb-4">
-        <div class="card category-card h-100" data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    {% if category.name == 'Academics' %}
-                        <i class="fas fa-graduation-cap fa-3x text-info"></i>
-                    {% elif category.name == 'Campus Life' %}
-                        <i class="fas fa-university fa-3x text-success"></i>
-                    {% elif category.name == 'Relationships' %}
-                        <i class="fas fa-heart fa-3x text-danger"></i>
-                    {% elif category.name == 'Mental Health' %}
-                        <i class="fas fa-brain fa-3x text-warning"></i>
-                    {% elif category.name == 'PS/Thesis' %}
-                        <i class="fas fa-laptop-code fa-3x text-primary"></i>
-                    {% else %}
-                        <i class="fas fa-comments fa-3x text-secondary"></i>
-                    {% endif %}
+        <a href="{{ url_for('search') }}?category={{ category.id }}&query={{ category.name }}&summarize=true" class="text-decoration-none">
+            <div class="card category-card h-100 shadow-sm hover-shadow" data-category-id="{{ category.id }}" data-category-name="{{ category.name }}">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        {% if category.name == 'Academics' %}
+                            <i class="fas fa-graduation-cap fa-3x text-info"></i>
+                        {% elif category.name == 'Campus Life' %}
+                            <i class="fas fa-university fa-3x text-success"></i>
+                        {% elif category.name == 'Relationships' %}
+                            <i class="fas fa-heart fa-3x text-danger"></i>
+                        {% elif category.name == 'Mental Health' %}
+                            <i class="fas fa-brain fa-3x text-warning"></i>
+                        {% elif category.name == 'PS/Thesis' %}
+                            <i class="fas fa-laptop-code fa-3x text-primary"></i>
+                        {% else %}
+                            <i class="fas fa-comments fa-3x text-secondary"></i>
+                        {% endif %}
+                    </div>
+                    <h4 class="card-title">{{ category.name }}</h4>
+                    <p class="card-text text-muted">
+                        {% if category.name == 'Academics' %}
+                            Courses, professors, grades, exams, and study tips
+                        {% elif category.name == 'Campus Life' %}
+                            Hostels, mess, events, clubs, and campus facilities
+                        {% elif category.name == 'Relationships' %}
+                            Dating, friendships, and social interactions
+                        {% elif category.name == 'Mental Health' %}
+                            Stress, anxiety, burnout, and seeking support
+                        {% elif category.name == 'PS/Thesis' %}
+                            Practice School, internships, and thesis experiences
+                        {% else %}
+                            Miscellaneous topics and general discussions
+                        {% endif %}
+                    </p>
                 </div>
-                <h4 class="card-title">{{ category.name }}</h4>
-                <p class="card-text text-muted">
-                    {% if category.name == 'Academics' %}
-                        Courses, professors, grades, exams, and study tips
-                    {% elif category.name == 'Campus Life' %}
-                        Hostels, mess, events, clubs, and campus facilities
-                    {% elif category.name == 'Relationships' %}
-                        Dating, friendships, and social interactions
-                    {% elif category.name == 'Mental Health' %}
-                        Stress, anxiety, burnout, and seeking support
-                    {% elif category.name == 'PS/Thesis' %}
-                        Practice School, internships, and thesis experiences
-                    {% else %}
-                        Miscellaneous topics and general discussions
-                    {% endif %}
-                </p>
             </div>
-        </div>
+        </a>
     </div>
     {% endfor %}
 </div>
@@ -131,31 +133,31 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=How%20to%20prepare%20for%20Compre%20exams&summarize=true" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=How%20to%20prepare%20for%20Compre%20exams&summarize=true" class="text-decoration-none popular-question-link d-block p-2 rounded">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             How to prepare for Compre exams?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=What%20are%20the%20best%20places%20to%20eat%20near%20campus&summarize=true" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=What%20are%20the%20best%20places%20to%20eat%20near%20campus&summarize=true" class="text-decoration-none popular-question-link d-block p-2 rounded">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             What are the best places to eat near campus?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=Tips%20for%20getting%20good%20PS%20stations&summarize=true" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=Tips%20for%20getting%20good%20PS%20stations&summarize=true" class="text-decoration-none popular-question-link d-block p-2 rounded">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             Tips for getting good PS stations?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=How%20to%20manage%20academic%20pressure&summarize=true" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=How%20to%20manage%20academic%20pressure&summarize=true" class="text-decoration-none popular-question-link d-block p-2 rounded">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             How to manage academic pressure?
                         </a>
                     </li>
                     <li class="list-group-item bg-transparent">
-                        <a href="{{ url_for('search') }}?query=What%20clubs%20should%20I%20join%20as%20a%20fresher&summarize=true" class="text-decoration-none">
+                        <a href="{{ url_for('search') }}?query=What%20clubs%20should%20I%20join%20as%20a%20fresher&summarize=true" class="text-decoration-none popular-question-link d-block p-2 rounded">
                             <i class="fas fa-question-circle me-2 text-primary"></i>
                             What clubs should I join as a fresher?
                         </a>

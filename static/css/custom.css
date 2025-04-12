@@ -68,11 +68,28 @@
     transition: all 0.3s ease;
     cursor: pointer;
     height: 100%;
+    border: 1px solid var(--bs-border-color);
 }
 
 .category-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: var(--bs-primary);
+}
+
+/* Hover shadow utility class */
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Popular question links */
+.popular-question-link {
+    transition: all 0.2s ease;
+}
+
+.popular-question-link:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+    transform: translateX(5px);
 }
 
 /* Search highlight */
