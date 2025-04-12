@@ -51,6 +51,151 @@ with app.app_context():
             db.session.add(new_category)
     
     db.session.commit()
+    
+    # Add sample confessions if the database is empty
+    if Confession.query.count() == 0:
+        logger.info("Adding sample confessions to the database")
+        
+        # Get category IDs
+        category_dict = {cat.name: cat.id for cat in Category.query.all()}
+        
+        # Sample confessions with realistic data for each category
+        sample_confessions = [
+            {
+                "text": "I'm struggling with my Data Structures course. The professor is going too fast, and I can't keep up with the assignments. Has anyone been in this situation? What should I do?",
+                "title": "Struggling with Data Structures",
+                "category": "Academics",
+                "source": "BITSPilani",
+                "score": 45,
+                "url": "https://www.reddit.com/r/BITSPilani/sample1"
+            },
+            {
+                "text": "The mess food has been terrible lately. I've found insects in the rice twice this week. Are others experiencing the same issue? How do we raise this with the administration?",
+                "title": "Mess Food Quality",
+                "category": "Campus Life",
+                "source": "BITSPilani",
+                "score": 78,
+                "url": "https://www.reddit.com/r/BITSPilani/sample2"
+            },
+            {
+                "text": "I've had a crush on this girl in my Computer Science class for two semesters now. We talk occasionally but I'm too nervous to ask her out. She's brilliant and way out of my league. Any advice?",
+                "title": "Crush in CS class",
+                "category": "Relationships",
+                "source": "bitsians",
+                "score": 92,
+                "url": "https://www.reddit.com/r/bitsians/sample3"
+            },
+            {
+                "text": "The academic pressure is killing me. I haven't slept properly in weeks, my CGPA is dropping, and I'm constantly anxious. Does anyone else feel like they're drowning?",
+                "title": "Academic pressure and mental health",
+                "category": "Mental Health",
+                "source": "Indian_Academia",
+                "score": 106,
+                "url": "https://www.reddit.com/r/Indian_Academia/sample4"
+            },
+            {
+                "text": "Just got my PS station at Amazon Bangalore! So excited for this opportunity. Any tips for making the most of it? What's the work culture like?",
+                "title": "PS at Amazon Bangalore",
+                "category": "PS/Thesis",
+                "source": "BITSPilani",
+                "score": 67,
+                "url": "https://www.reddit.com/r/BITSPilani/sample5"
+            },
+            {
+                "text": "The BITS Pilani courses are much harder than I expected. I was a top student in my school, but here I'm barely average. Is this normal or am I not cut out for this?",
+                "title": "Difficulty of courses",
+                "category": "Academics",
+                "source": "Indian_Academia",
+                "score": 34,
+                "url": "https://www.reddit.com/r/Indian_Academia/sample6"
+            },
+            {
+                "text": "The hostel internet is so unreliable, especially in the evenings when everyone is trying to use it. How am I supposed to submit assignments or attend online interviews?",
+                "title": "Hostel internet issues",
+                "category": "Campus Life",
+                "source": "BITSPilani",
+                "score": 56,
+                "url": "https://www.reddit.com/r/BITSPilani/sample7"
+            },
+            {
+                "text": "I broke up with my girlfriend last semester, and now we have 3 classes together. The awkwardness is unbearable. How do I handle this situation?",
+                "title": "Ex in same classes",
+                "category": "Relationships",
+                "source": "bitsians",
+                "score": 87,
+                "url": "https://www.reddit.com/r/bitsians/sample8"
+            },
+            {
+                "text": "I've been feeling depressed and isolated for months now. My friends don't understand, and I'm too embarrassed to see a counselor. Does anyone have experience with the campus mental health services?",
+                "title": "Depression and seeking help",
+                "category": "Mental Health",
+                "source": "BITSPilani",
+                "score": 112,
+                "url": "https://www.reddit.com/r/BITSPilani/sample9"
+            },
+            {
+                "text": "My PS station is boring and I'm not learning anything valuable. The work is repetitive and my mentor rarely has time for me. Is it worth trying to change stations mid-semester?",
+                "title": "Disappointing PS experience",
+                "category": "PS/Thesis",
+                "source": "Indian_Academia",
+                "score": 45,
+                "url": "https://www.reddit.com/r/Indian_Academia/sample10"
+            },
+            {
+                "text": "I'm a first-year student and still haven't made any close friends. Everyone seems to already have their groups. Any advice on how to connect with people?",
+                "title": "Trouble making friends",
+                "category": "General",
+                "source": "BITSPilani",
+                "score": 65,
+                "url": "https://www.reddit.com/r/BITSPilani/sample11"
+            },
+            {
+                "text": "I just bombed my Thermodynamics exam. I studied for weeks but blanked out completely. Now I'm worried about my grade in this course. Has anyone recovered from a bad exam?",
+                "title": "Failed an important exam",
+                "category": "Academics",
+                "source": "bitsians",
+                "score": 41,
+                "url": "https://www.reddit.com/r/bitsians/sample12"
+            },
+            {
+                "text": "Which clubs are worth joining at BITS Pilani? I'm interested in robotics and programming but don't want to overcommit in my first year.",
+                "title": "Club recommendations",
+                "category": "Campus Life",
+                "source": "BITSPilani",
+                "score": 33,
+                "url": "https://www.reddit.com/r/BITSPilani/sample13"
+            },
+            {
+                "text": "My roommate and I have completely different schedules and habits. They party late, I wake up early. The tension is making living together unbearable. How do I request a room change?",
+                "title": "Roommate conflicts",
+                "category": "Campus Life",
+                "source": "Indian_Academia",
+                "score": 76,
+                "url": "https://www.reddit.com/r/Indian_Academia/sample14"
+            },
+            {
+                "text": "I'm struggling to balance academics with my relationship. My girlfriend attends a different college, and the long-distance is taking a toll. Any advice from those who've made it work?",
+                "title": "Long-distance relationship struggles",
+                "category": "Relationships",
+                "source": "BITSPilani",
+                "score": 54,
+                "url": "https://www.reddit.com/r/BITSPilani/sample15"
+            }
+        ]
+        
+        for confession in sample_confessions:
+            new_confession = Confession(
+                text=confession["text"],
+                title=confession["title"],
+                category_id=category_dict[confession["category"]],
+                source=confession["source"],
+                score=confession["score"],
+                url=confession["url"]
+            )
+            db.session.add(new_confession)
+        
+        db.session.commit()
+        logger.info(f"Added {len(sample_confessions)} sample confessions to the database")
 
 # Routes
 @app.route('/')
@@ -59,10 +204,15 @@ def index():
     current_year = datetime.now().year
     return render_template('index.html', categories=categories, current_year=current_year)
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.form.get('query', '')
-    category_id = request.form.get('category', '')
+    if request.method == 'POST':
+        query = request.form.get('query', '')
+        category_id = request.form.get('category', '')
+    else:  # GET request
+        query = request.args.get('query', '')
+        category_id = request.args.get('category', '')
+    
     current_year = datetime.now().year
     
     if not query:
@@ -144,6 +294,7 @@ def about():
 @app.route('/refresh_data')
 def refresh_data():
     """Admin route to refresh Reddit data"""
+    current_year = datetime.now().year
     try:
         # Only allow this in development mode
         if not app.debug:
