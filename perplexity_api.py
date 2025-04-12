@@ -24,28 +24,53 @@ except LookupError:
 
 def extract_key_phrases(texts, num_phrases=10):
     """Extract key phrases from a list of texts"""
-    stop_words = set(stopwords.words('english'))
+    try:
+        stop_words = set(stopwords.words('english'))
+    except Exception as e:
+        logger.warning(f"Error loading stopwords, using a minimal set: {str(e)}")
+        stop_words = {'a', 'an', 'the', 'and', 'or', 'but', 'is', 'are', 'was', 'were', 
+                      'in', 'to', 'of', 'for', 'with', 'on', 'at', 'by', 'this', 'that'}
     
     # Combine all texts
     combined_text = ' '.join(texts)
     
-    # Tokenize and remove stopwords
-    words = [word.lower() for word in word_tokenize(combined_text) 
-             if word.isalnum() and word.lower() not in stop_words and len(word) > 3]
+    try:
+        # Try to use word_tokenize
+        words = [word.lower() for word in word_tokenize(combined_text) 
+                if word.isalnum() and word.lower() not in stop_words and len(word) > 3]
+    except Exception as e:
+        # Fallback to simple split
+        logger.warning(f"Error using word_tokenize, using fallback method: {str(e)}")
+        words = [word.lower() for word in re.findall(r'\b\w+\b', combined_text)
+                if word.isalnum() and word.lower() not in stop_words and len(word) > 3]
     
     # Find most common words
-    fdist = FreqDist(words)
-    return [word for word, _ in fdist.most_common(num_phrases)]
+    try:
+        fdist = FreqDist(words)
+        return [word for word, _ in fdist.most_common(num_phrases)]
+    except Exception as e:
+        # Fallback to Counter
+        logger.warning(f"Error using FreqDist, using Counter instead: {str(e)}")
+        from collections import Counter
+        word_counts = Counter(words)
+        return [word for word, _ in word_counts.most_common(num_phrases)]
 
 def get_key_sentences(texts, key_phrases, num_sentences=5):
     """Extract key sentences containing important phrases"""
     all_sentences = []
     
     for text in texts:
-        sentences = sent_tokenize(text)
+        try:
+            # Attempt to use sent_tokenize
+            sentences = sent_tokenize(text)
+        except Exception as e:
+            # Fallback to a simple split by '. '
+            logger.warning(f"Error using sent_tokenize, using fallback method: {str(e)}")
+            sentences = text.split('. ')
+        
         for sentence in sentences:
             # Score sentence based on how many key phrases it contains
-            score = sum(1 for phrase in key_phrases if phrase in sentence.lower())
+            score = sum(1 for phrase in key_phrases if phrase.lower() in sentence.lower())
             if score > 0:
                 all_sentences.append((sentence, score))
     

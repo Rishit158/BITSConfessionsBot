@@ -334,10 +334,16 @@ def category_detail(category_id):
     # Get all categories for the navigation
     all_categories = Category.query.all()
     
+    # Count confessions for each category to populate sidebar
+    category_counts = {}
+    for cat in all_categories:
+        category_counts[cat.id] = Confession.query.filter_by(category_id=cat.id).count()
+    
     return render_template('category_detail.html', 
                           category=category,
                           confessions=confessions,
                           categories=all_categories,
+                          category_counts=category_counts,
                           current_year=current_year)
 
 @app.route('/about')
